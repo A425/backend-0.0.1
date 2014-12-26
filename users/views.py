@@ -10,9 +10,10 @@ def createUser(request):
     result = {}
 
     print 'Before'
+    print request
     if request.method == 'POST':
-        name = request.POST.get('username')
-        password = request.POST.get('password')
+        name = request.POST['username']
+        password = request.POST['password']
 
         print name
         print password
