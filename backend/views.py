@@ -39,6 +39,21 @@ def getCheckCode(request):
     return HttpResponse(checkcodePic)
 
 @csrf_exempt
+def register(request):
+    content = {}
+    if request.method == 'POST':
+        uname = request.POST['username']
+        pw = request.POST['password']
+
+        content['username'] = uname
+        content['password'] = pw
+
+        print content
+
+    return HttpResponse(str(content), content_type="application/json")
+
+
+@csrf_exempt
 def login(request):
 
     # #Create a CookieJar object to hold the cookies
