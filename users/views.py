@@ -9,18 +9,24 @@ from django.contrib.auth.models import User
 def createUser(request):
     result = {}
 
+    print 'Before'
     if request.method == 'POST':
         name = request.POST.get('username')
         password = request.POST.get('password')
 
+        print name
+        print password
         try:
             newUser = User.objects.create_user(username=name,password=password)
             result['success'] = True
             result['user'] = newUser
+            print newUser
         except Exception, e:
             result['success'] = False
             result['exception'] = e
+            print e
 
+    print 'End'
     return HttpResponse(str(result), content_type="application/json")
 
 def signIn(request):
