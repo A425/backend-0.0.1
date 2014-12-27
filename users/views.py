@@ -15,17 +15,21 @@ def createUser(request):
     if request.method == 'POST':
         name = request.POST['username']
         password = request.POST['password']
-
         try:
-            newUser = User.objects.create_user(username=name,password=password)
-            result['success'] = True
-            result['user'] = name
-            newUser.save()
-            print newUser
-        except Exception, e:
+            User.objects.get(username=name):
             result['success'] = False
-            result['exception'] = e
-            print e
+            result['code'] = 'user-exist'
+        except User.DoesNotExist:
+            try:
+                newUser = User.objects.create_user(username=name,password=password)
+                result['success'] = True
+                result['user'] = name
+                newUser.save()
+                print newUser
+            except Exception, e:
+                result['success'] = False
+                result['code'] = 'error-when-create'
+                print e
 
     return JsonResponse(result)
 
@@ -43,13 +47,16 @@ def signIn(request):
                 if user.is_active:
                     login(request, user)
                     result['success'] = True
+                    result['username'] = name
                 else:
                     result['success'] = False
+                    result['code'] = 'name-or-pw-incorrect'
             else:
                 result['success'] = False
+                result['code'] = 'name-or-pw-blank'
         except Exception, e:
             result['success'] = False
-            result['exception'] = e
+            result['code'] = 'error-when-signin'
 
     return JsonResponse(result)
 
