@@ -8,11 +8,12 @@ from django.contrib.auth.models import User
 
 from django.views.decorators.csrf import csrf_exempt
 
-#code 100 == user-exist
-#code 101 == error-when-create
-#code 102 == name-or-pw-incorrect
-#code 103 == name-or-pw-blank
-#code 104 == error-when-signin
+#code 100 == user exist
+#code 101 == error when create
+#code 102 == name or pw incorrect
+#code 103 == name or pw blank
+#code 104 == error when signin
+#code 105 == password and confirm password does not match
 
 @csrf_exempt
 def createUser(request):
@@ -21,6 +22,13 @@ def createUser(request):
     if request.method == 'POST':
         name = request.POST['username']
         password = request.POST['password']
+        confirm = request.POST['confirm']
+
+        if password != confirm
+            result['success'] = False
+            result['code'] = 105
+            return JsonResponse(result)
+
         try:
             User.objects.get(username=name)
             result['success'] = False
@@ -50,7 +58,7 @@ def signIn(request):
         try:
             if name and password:
                 user = authenticate(username=name, password=password)
-                if user.is_active:
+                if user is not None:
                     login(request, user)
                     result['success'] = True
                     result['user'] = name
