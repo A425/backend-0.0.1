@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from urllib2 import Request, build_opener, HTTPCookieProcessor, HTTPHandler
 import cookielib, urllib, re, os, webbrowser
 from HTMLParser import HTMLParser
-from bs4 import BeautifulSoup
+#from bs4 import BeautifulSoup
 import StringIO
 import json
 from django.views.decorators.csrf import csrf_exempt

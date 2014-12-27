@@ -13,14 +13,13 @@ def createUser(request):
     result = {}
 
     if request.method == 'POST':
-        req = json.loads(request.body)
-        name = req.get('username', '')
-        password = req.get('password', '')
+        name = request.get['username']
+        password = request.get['password']
 
         try:
             newUser = User.objects.create_user(username=name,password=password)
             result['success'] = True
-            result['user'] = newUser
+            result['user'] = name
             print newUser
         except Exception, e:
             result['success'] = False
