@@ -13,13 +13,14 @@ def createUser(request):
     result = {}
 
     if request.method == 'POST':
-        name = request.get['username']
-        password = request.get['password']
+        name = request.POST['username']
+        password = request.POST['password']
 
         try:
             newUser = User.objects.create_user(username=name,password=password)
             result['success'] = True
             result['user'] = name
+            newUser.save()
             print newUser
         except Exception, e:
             result['success'] = False
@@ -33,18 +34,22 @@ def signIn(request):
     result = {}
 
     if request.method == 'POST':
-        req = json.loads(request.body)
-        name = req.get('username','')
-        password = req.get('password','')
-        if username and password:
-            user = authenticate(username=name, password=password)
-            if user.is_active:
-                login(request, user)
-                result['success'] = True
+        name = request.POST['username']
+        password = request.POST['password']
+
+        try:
+            if name and password:
+                user = authenticate(username=name, password=password)
+                if user.is_active:
+                    login(request, user)
+                    result['success'] = True
+                else:
+                    result['success'] = False
             else:
                 result['success'] = False
-        else:
+        except Exception, e:
             result['success'] = False
+            result['exception'] = e
 
     return JsonResponse(result)
 
