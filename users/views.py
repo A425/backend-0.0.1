@@ -8,6 +8,12 @@ from django.contrib.auth.models import User
 
 from django.views.decorators.csrf import csrf_exempt
 
+#code 100 == user-exist
+#code 101 == error-when-create
+#code 102 == name-or-pw-incorrect
+#code 103 == name-or-pw-blank
+#code 104 == error-when-signin
+
 @csrf_exempt
 def createUser(request):
     result = {}
@@ -16,9 +22,9 @@ def createUser(request):
         name = request.POST['username']
         password = request.POST['password']
         try:
-            User.objects.get(username=name):
+            User.objects.get(username=name)
             result['success'] = False
-            result['code'] = 'user-exist'
+            result['code'] = 100
         except User.DoesNotExist:
             try:
                 newUser = User.objects.create_user(username=name,password=password)
@@ -28,7 +34,7 @@ def createUser(request):
                 print newUser
             except Exception, e:
                 result['success'] = False
-                result['code'] = 'error-when-create'
+                result['code'] = 101
                 print e
 
     return JsonResponse(result)
@@ -47,16 +53,16 @@ def signIn(request):
                 if user.is_active:
                     login(request, user)
                     result['success'] = True
-                    result['username'] = name
+                    result['user'] = name
                 else:
                     result['success'] = False
-                    result['code'] = 'name-or-pw-incorrect'
+                    result['code'] = 102
             else:
                 result['success'] = False
-                result['code'] = 'name-or-pw-blank'
+                result['code'] = 103
         except Exception, e:
             result['success'] = False
-            result['code'] = 'error-when-signin'
+            result['code'] = 104
 
     return JsonResponse(result)
 
