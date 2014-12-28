@@ -1,5 +1,5 @@
 import json
-# from uuid import uuid4
+from uuid import uuid4
 
 from django.contrib.auth import authenticate, login, logout
 from django.core.serializers.json import DjangoJSONEncoder
@@ -117,7 +117,12 @@ def testData(request):
 
     if request.method == 'GET':
         result['success'] = True
-        result['username'] = 'Liuyuchen'
+        name = 'Liuyuchen'
+
+        token = generate_uuid()
+        userToken = Token(name=name,token=token)
+        userToken.save()
+        result['token'] = token
 
     return JsonResponse(result)
 
