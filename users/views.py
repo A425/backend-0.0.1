@@ -1,12 +1,12 @@
 import json
-from uuid import uuid4
+# from uuid import uuid4
 
 from django.contrib.auth import authenticate, login, logout
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import JsonResponse
 
 from django.contrib.auth.models import User
-# from users.models import Token
+from users.models import Token
 from django.views.decorators.csrf import csrf_exempt
 
 #code 100 == user exist
@@ -21,22 +21,22 @@ def generate_uuid():
     u = uuid4().hex
     return u
 
-# @csrf_exempt
-# def userValidate(request):
-#      result = {}
-#      if request.method == 'POST':
-#         token = request.POST['token']
-#         name = request.POST['username']
+@csrf_exempt
+def userValidate(request):
+     result = {}
+     if request.method == 'POST':
+        token = request.POST['token']
+        name = request.POST['username']
 
-#         try:
-#             Token.objects.get(name=name,token=token)
-#             result['success'] = True
-#             result['user'] = name
-#         except Token.DoesNotExist:
-#             result['success'] = False
-#             result['code'] = 106
+        try:
+            Token.objects.get(name=name,token=token)
+            result['success'] = True
+            result['user'] = name
+        except Token.DoesNotExist:
+            result['success'] = False
+            result['code'] = 106
 
-#         return JsonResponse(result)
+        return JsonResponse(result)
 
 
 @csrf_exempt
@@ -64,15 +64,15 @@ def createUser(request):
             result['code'] = 100
         except User.DoesNotExist:
             try:
-                newUser = User.objects.create_user(username=name,password=password)
-                login(request, newUser)
+                newUser = User.objects.create_user(username=name)
+                newUser.set_password(password)
                 result['success'] = True
                 result['user'] = name
                 newUser.save()
-                # token = generate_uuid()
-                # userToken = Token(name=name,token=token)
-                # userToken.save()
-                # result['token'] = token
+                token = generate_uuid()
+                userToken = Token(name=name,token=token)
+                userToken.save()
+                result['token'] = token
                 print newUser
             except Exception, e:
                 result['success'] = False
@@ -93,13 +93,12 @@ def signIn(request):
             if name and password:
                 user = authenticate(username=name, password=password)
                 if user is not None:
-                    login(request, user)
                     result['success'] = True
                     result['user'] = name
-                    # userToken = Token.objects.get(name=name)
-                    # userToken.token = generate_uuid()
-                    # result['token'] = userToken.token
-                    # userToken.save()
+                    userToken = Token.objects.get(name=name)
+                    userToken.token = generate_uuid()
+                    result['token'] = userToken.token
+                    userToken.save()
                 else:
                     result['success'] = False
                     result['code'] = 102
