@@ -36,7 +36,7 @@ def userValidate(request):
             result['success'] = False
             result['code'] = 106
 
-        return result
+        return JsonResponse(result)
 
 
 @csrf_exempt
