@@ -6,7 +6,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.http import JsonResponse
 
 from django.contrib.auth.models import User
-from users.models import Token
+# from users.models import Token
 from django.views.decorators.csrf import csrf_exempt
 
 #code 100 == user exist
@@ -21,22 +21,22 @@ def generate_uuid():
     u = uuid4().hex
     return u
 
-@csrf_exempt
-def userValidate(request):
-     result = {}
-     if request.method == 'POST':
-        token = request.POST['token']
-        name = request.POST['username']
+# @csrf_exempt
+# def userValidate(request):
+#      result = {}
+#      if request.method == 'POST':
+#         token = request.POST['token']
+#         name = request.POST['username']
 
-        try:
-            Token.objects.get(name=name,token=token)
-            result['success'] = True
-            result['user'] = name
-        except Token.DoesNotExist:
-            result['success'] = False
-            result['code'] = 106
+#         try:
+#             Token.objects.get(name=name,token=token)
+#             result['success'] = True
+#             result['user'] = name
+#         except Token.DoesNotExist:
+#             result['success'] = False
+#             result['code'] = 106
 
-        return JsonResponse(result)
+#         return JsonResponse(result)
 
 
 @csrf_exempt
@@ -69,10 +69,10 @@ def createUser(request):
                 result['success'] = True
                 result['user'] = name
                 newUser.save()
-                token = generate_uuid()
-                userToken = Token(name=name,token=token)
-                userToken.save()
-                result['token'] = token
+                # token = generate_uuid()
+                # userToken = Token(name=name,token=token)
+                # userToken.save()
+                # result['token'] = token
                 print newUser
             except Exception, e:
                 result['success'] = False
@@ -96,10 +96,10 @@ def signIn(request):
                     login(request, user)
                     result['success'] = True
                     result['user'] = name
-                    userToken = Token.objects.get(name=name)
-                    userToken.token = generate_uuid()
-                    result['token'] = userToken.token
-                    userToken.save()
+                    # userToken = Token.objects.get(name=name)
+                    # userToken.token = generate_uuid()
+                    # result['token'] = userToken.token
+                    # userToken.save()
                 else:
                     result['success'] = False
                     result['code'] = 102
