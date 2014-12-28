@@ -64,7 +64,8 @@ DATABASES = {
     }
 }
 
-AUTH_PROFILE_MODULE = 'users.userprofile'
+# AUTH_USER_MODEL = 'users.User'
+# AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',)
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/

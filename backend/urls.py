@@ -17,5 +17,6 @@ urlpatterns = patterns('',
 
     url(r'^newuser$', createUser),
     url(r'^signin$', signIn),
+    url(r'^validate$', userValidate),
     url(r'^test/$', testData),
 )
