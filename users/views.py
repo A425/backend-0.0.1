@@ -112,7 +112,7 @@ def signIn(request):
     return JsonResponse(result)
 
 @csrf_exempt
-def testData(request):
+def testToken(request):
     result = {}
 
     if request.method == 'GET':
@@ -123,6 +123,11 @@ def testData(request):
         userToken = Token(name=name,token=token)
         userToken.save()
         result['token'] = token
+
+        # userToken = Token.objects.get(name=name)
+        # userToken.token = generate_uuid()
+        # result['token'] = userToken.token
+        # userToken.save()
 
     return JsonResponse(result)
 

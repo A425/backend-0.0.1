@@ -1,0 +1,8 @@
+from django.contrib import admin
+from articles.models import Article
+
+# Register your models here.
+class ArticleAdmin(admin.ModelAdmin):
+    list_display = ('intention', 'name', 'cellphone', 'title', 'createDate')
+
+admin.site.register(Article, ArticleAdmin)
