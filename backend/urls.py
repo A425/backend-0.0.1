@@ -17,7 +17,10 @@ urlpatterns = patterns('',
 
     url(r'^newuser$', createUser),
     url(r'^signin$', signIn),
-    # url(r'^validate$', userValidate),
+    url(r'^validate$', userValidate),
     url(r'^testToken/$', testToken),
-    url(r'^testArticle/$', testArticle),
+
+    url(r'^postArticle$', postArticle),
+    url(r'^getArticles$', getArticles),
+    url(r'^testArticle/$', testArticle)
 )
