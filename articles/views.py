@@ -45,10 +45,10 @@ def postArticle(request):
         result['success'] = True
         intention = request.POST['intention']
         uid = generate_uuid()
-        name = request.POST['username'].encode('gb2312')
+        name = request.POST['username']
         cellphone = request.POST['cellphone']
-        title = request.POST['title'].encode('gb2312')
-        content = request.POST['content'].encode('gb2312')
+        title = request.POST['title']
+        content = request.POST['content']
 
         try:
             userArticle = Article(name=name,intention=intention,cellphone=cellphone,title=title,content=content,uid=uid,timestamp=time.time())
