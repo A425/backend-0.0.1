@@ -29,7 +29,8 @@ def getArticles(request):
                 phone = article.cellphone
                 title = article.title
                 content = article.content
-                a = {'intent':intent,'uid':uid,'phone':phone,'title':title,'content':content}
+                timestamp = article.timestamp
+                a = {'intent':intent,'uid':uid,'phone':phone,'title':title,'content':content,'timestamp':timestamp}
                 articleList.append(a)
             result['list'] = articleList
                 # get all post
