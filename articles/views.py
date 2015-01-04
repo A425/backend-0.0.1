@@ -16,23 +16,26 @@ def generate_uuid():
 @csrf_exempt
 def getArticles(request):
     result = {}
+    articleList = []
 
     if request.method == 'GET':
         result['success'] = True
         try:
             tag = request.GET['tag']
-            if tag == "1":
-                try:
-                    result['tag'] = Article.objects.get(name='')
-                except Article.DoesNotExist:
-                    result['error'] = 'article not found'
-                # get my post
-            else:
-                pass
+            articles = Article.objects.filter(intention=tag)
+            for article in articles:
+                intent = article.intention
+                uid = article.uid
+                phone = article.cellphone
+                title = article.title
+                content = article.content
+                a = {'intent':intent,'uid':uid,'phone':phone,'title':title,'content':content}
+                articleList.append(a)
+            result['list'] = articleList
                 # get all post
-        except Exception, e:
+        except Article.DoesNotExist:
+            result['error'] = 'article not found'
             result['success'] = False
-            result['error'] = 'some error occured'
 
     return JsonResponse(result)
 
@@ -76,7 +79,6 @@ def testArticle(request):
 
         userArticle = Article(name=name,intention=intention,cellphone=cellphone,title=title,content=content,timestamp=time.time())
         userArticle.save()
-
         # userToken = Token.objects.get(name=name)
         # userToken.token = generate_uuid()
         # result['token'] = userToken.token
