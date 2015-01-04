@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import json
 from uuid import uuid4
 import time
@@ -20,7 +22,10 @@ def getArticles(request):
         try:
             tag = request.GET['tag']
             if tag == "1":
-                result['tag'] = 1
+                try:
+                    result['tag'] = Article.objects.get(name='')
+                except Article.DoesNotExist:
+                    result['error'] = 'article not found'
                 # get my post
             else:
                 pass
@@ -47,6 +52,7 @@ def postArticle(request):
 
         try:
             userArticle = Article(name=name,intention=intention,cellphone=cellphone,title=title,content=content,uid=uid,timestamp=time.time())
+            # userArticle = Article(name="a",intention=1,cellphone='13716753743',title='title这是',content='content这是你',uid=uid,timestamp=time.time())
             userArticle.save()
         except Exception, e:
             result['success'] = False
