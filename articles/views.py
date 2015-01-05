@@ -57,7 +57,7 @@ def postArticle(request):
 
         try:
             now = time.time()*1000
-            userArticle = Article(name=name,intention=intention,cellphone=cellphone,title=title,content=content,uid=uid,timestamp=str('%.1f'%now))
+            userArticle = Article(name=name,intention=intention,cellphone=cellphone,title=title,content=content,uid=uid,timestamp=str('%.0f'%now))
             # userArticle = Article(name="a",intention=1,cellphone='13716753743',title='title这是',content='content这是你',uid=uid,timestamp=time.time())
             userArticle.save()
         except Exception, e:
