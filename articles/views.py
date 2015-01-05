@@ -5,6 +5,7 @@ from uuid import uuid4
 import time
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import JsonResponse
+from django.utils.encoding import smart_unicode
 
 from articles.models import Article
 from django.views.decorators.csrf import csrf_exempt
@@ -51,7 +52,7 @@ def postArticle(request):
         uid = generate_uuid()
         name = request.POST.get('username','')
         cellphone = request.POST.get('cellphone','')
-        title = request.POST.get('title','')
+        title = smart_unicode(request.POST.get('title',''))
         content = request.POST.get('content','')
 
         try:
