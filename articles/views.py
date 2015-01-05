@@ -31,7 +31,7 @@ def getArticles(request):
                 title = article.title
                 content = article.content
                 timestamp = article.timestamp
-                a = {'intent':intent,'uid':uid,'phone':phone,'title':title,'content':content,'timestamp':timestamp}
+                a = {'intent':intent,'uid':uid,'phone':phone,'title':title,'content':content,'timestamp':str('%.2f'%timestamp)}
                 articleList.append(a)
             result['list'] = articleList
                 # get all post
@@ -56,7 +56,8 @@ def postArticle(request):
         content = request.POST.get('content','')
 
         try:
-            userArticle = Article(name=name,intention=intention,cellphone=cellphone,title=title,content=content,uid=uid,timestamp=time.time()*1000)
+            now = time.time()*1000
+            userArticle = Article(name=name,intention=intention,cellphone=cellphone,title=title,content=content,uid=uid,timestamp=now)
             # userArticle = Article(name="a",intention=1,cellphone='13716753743',title='title这是',content='content这是你',uid=uid,timestamp=time.time())
             userArticle.save()
         except Exception, e:
