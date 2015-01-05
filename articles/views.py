@@ -22,8 +22,9 @@ def getArticles(request):
     if request.method == 'GET':
         result['success'] = True
         try:
-            tag = request.GET['tag']
-            articles = Article.objects.filter(intention=tag)
+            tag = request.GET.get('tag','')
+            timestamp = request.GET.get('ts','')
+            articles = Article.objects.filter(intention=tag, timestamp__gte=timestamp)
             for article in articles:
                 intent = article.intention
                 uid = article.uid
