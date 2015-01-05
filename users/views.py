@@ -25,16 +25,15 @@ def generate_uuid():
 def userValidate(request):
      result = {}
      if request.method == 'POST':
+        result['success'] = True
         token = request.POST['token']
         name = request.POST['username']
 
         try:
             Token.objects.get(name=name,token=token)
-            result['success'] = True
             result['user'] = name
         except Token.DoesNotExist:
-            result['success'] = False
-            result['code'] = 106
+            result['user'] = ''
 
         return JsonResponse(result)
 
