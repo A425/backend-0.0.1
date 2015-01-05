@@ -11,4 +11,4 @@ class Article(models.Model):
     cellphone = models.CharField(max_length=64)
     title = models.TextField()
     content = models.TextField()
-    timestamp = models.FloatField()
+    timestamp = models.CharField(max_length=64)
