@@ -24,7 +24,7 @@ def getArticles(request):
         try:
             tag = request.GET.get('tag','')
             timestamp = request.GET.get('ts','')
-            articles = Article.objects.filter(intention=tag, timestamp__gte=timestamp)
+            articles = Article.objects.filter(intention=tag, timestamp__gt=timestamp)
             for article in articles:
                 intent = article.intention
                 uid = article.uid
