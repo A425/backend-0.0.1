@@ -177,3 +177,8 @@ def login(request):
     content['score'] = score
 
     return HttpResponse(str(content), content_type="application/json")
+
+@csrf_exempt
+def downloadapk(request):
+    html="<html><body><a href='http://downloadlostandfound.oss-cn-beijing.aliyuncs.com/LostAndFound.apk'>download</a></body></html>"
+    return HttpResponse(html)
