@@ -4,13 +4,15 @@ import json
 from uuid import uuid4
 import time
 from django.core.serializers.json import DjangoJSONEncoder
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.utils.encoding import smart_unicode
-from django.http import HttpResponse
-
 from django.conf import settings
-from articles.models import Article
 from django.views.decorators.csrf import csrf_exempt
+
+from articles.models import Article
+from users.models import Token
+
+#code 106 == token validate is fail need signin
 
 def generate_uuid():
     u = uuid4().hex
@@ -63,15 +65,17 @@ def postArticle(request):
         cellphone = request.POST.get('cellphone','')
         title = smart_unicode(request.POST.get('title',''))
         content = request.POST.get('content','')
+        token = request.POST.get('token','')
 
         try:
+            Token.objects.get(name=name,token=token)
             now = time.time()*1000
             userArticle = Article(name=name,intention=intention,cellphone=cellphone,title=title,content=content,uid=uid,timestamp=str('%.0f'%now))
             # userArticle = Article(name="a",intention=1,cellphone='13716753743',title='title这是',content='content这是你',uid=uid,timestamp=time.time())
             userArticle.save()
-        except Exception, e:
+        except Token.DoesNotExist:
             result['success'] = False
-            result['error'] = 'some error occured'
+            result['code'] = 106
 
     return JsonResponse(result)
 
