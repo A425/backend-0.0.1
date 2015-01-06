@@ -26,8 +26,8 @@ def userValidate(request):
      result = {}
      if request.method == 'POST':
         result['success'] = True
-        token = request.POST['token']
-        name = request.POST['username']
+        token = request.POST.get('token','')
+        name = request.POST.get('username','')
 
         try:
             Token.objects.get(name=name,token=token)
@@ -43,9 +43,9 @@ def createUser(request):
     result = {}
 
     if request.method == 'POST':
-        name = request.POST['username']
-        password = request.POST['password']
-        confirm = request.POST['confirm']
+        name = request.POST.get('username','')
+        password = request.POST.get('password','')
+        confirm = request.POST.get('confirm','')
 
         if name =='' or password =='':
             result['success'] = False
@@ -85,8 +85,8 @@ def signIn(request):
     result = {}
 
     if request.method == 'POST':
-        name = request.POST['username']
-        password = request.POST['password']
+        name = request.POST.get('username','')
+        password = request.POST.get('password','')
 
         try:
             if name and password:
