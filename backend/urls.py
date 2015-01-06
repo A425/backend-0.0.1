@@ -25,5 +25,6 @@ urlpatterns = patterns('',
     url(r'^getArticles$', getArticles),
     url(r'^testArticle/$', testArticle),
 
+    url(r'^getMatrixCode$', getMatrixCode),
     url(r'^static/(?P<path>.*)$', 'django.views.static.serve',{'document_root': settings.STATIC_ROOT })
 )

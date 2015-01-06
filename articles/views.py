@@ -6,13 +6,21 @@ import time
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import JsonResponse
 from django.utils.encoding import smart_unicode
+from django.http import HttpResponse
 
+from django.conf import settings
 from articles.models import Article
 from django.views.decorators.csrf import csrf_exempt
 
 def generate_uuid():
     u = uuid4().hex
     return u
+
+@csrf_exempt
+def getMatrixCode(request):
+    if request.method == 'GET':
+        image_data = open(settings.IMAGE_BASEDIR+"/download.png", "rb").read()
+        return HttpResponse(image_data, content_type="image/png")
 
 @csrf_exempt
 def getArticles(request):

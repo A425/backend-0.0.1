@@ -87,3 +87,6 @@ USE_TZ = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'console/')
 STATIC_URL = '/static/'
+
+IMAGE_BASEDIR = os.path.join(BASE_DIR, 'img')
+
